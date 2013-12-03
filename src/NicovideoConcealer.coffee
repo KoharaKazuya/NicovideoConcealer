@@ -15,7 +15,7 @@ class Watch
     @$box = @select_box()
     @$thumb = @select_thumb()
     @$useless = @select_useless()
-    @$button = $('<a href="javascript:;;"</a>').css({
+    @$button = $('<a>').css({
       textDecoration: 'none'
       fontWeight: 'bold'
       fontSize: '12px'
@@ -67,48 +67,12 @@ class Watch
   # 指定リンクが既読かどうか
   isVisited : -> GM_getValue(prefix_id + @id, false)
 
-# ランキングトップページで使用
-class Watch_Top extends Watch
-  #get_rank : -> parseInt(@$link.parents('.ranking_box').attr('id').replace('item', ''))
-  select_box : -> @$link.parent().parent().parent()
-  select_thumb : -> @$link.parent().parent().prev().find('img')
-  select_useless : -> @$link.parent().siblings()
-
-# ランキング各ジャンルページで使用
-class Watch_Matrix extends Watch
-  #get_rank : -> parseInt(@$link.parents('td.bg_grade_0').siblings('.rank_count').text())
-  select_box : -> @$link.parent().parent()
-  select_thumb : -> @$link.parent().prev().children().children().children()
-  select_useless : -> @$link.parent().prev().prev()
-
-# ジャンル別ランキングページで使用
-class Watch_Fav extends Watch
-  select_box : -> @$link.parent().parent().parent().parent().parent().parent().parent()
-  select_thumb : -> @$link.parent().parent().parent().prev().find('img')
-  select_useless : -> @$link.parent().siblings()
-
-# 検索ページで使用
-class Watch_Search extends Watch
-  select_box : -> @$link.parent().parent()
-  select_thumb : -> @$link.parent().prev().find('img')
-  select_useless : -> @$link.parent().prev().find('table').next()
+  select_box : -> @$link.parents('.item')
+  select_thumb : -> @$link.parents('.item').find('.itemThumb')
+  select_useless : -> @$link.parents('.item').find('.itemComment, .itemDescription, .itemData, .itemTime')
 
 # 全ての動画アイテムのリスト
-watches = (->
-  if match 'matrix'
-    $links = $('a.watch')
-    page_type = Watch_Matrix
-  else if match 'fav'
-    $links = $('.content_672 a.watch')
-    page_type = Watch_Fav
-  else if (match 'search') || (match 'tag')
-    $links = $('.content_672 a.watch')
-    page_type = Watch_Search
-  else
-    $links = $('#ranking_main a.watch')
-    page_type = Watch_Top
-  $links.map((-> new page_type($(@))))
-)()
+watches = $('.itemTitle a').map((-> new Watch($(@))))
 
 console.log(watches)
 
@@ -135,11 +99,9 @@ add_all_hide_button = ->
       $('<td />')).append(
         $('<td colspan="11" />').append($all_hide_button)
       )
-  else if (match 'fav') || (match 'search') || (match 'tag')
-    $('#mainContainer>table:last-child>tbody>tr>td:last-child')
-      .before($('<td>').append $all_hide_button)
   else
-    $('#ranking_main').append($all_hide_button)
+    $('.contentBody>ul.list')
+      .append($('<li>').append $all_hide_button)
 
 # 初期化処理
 init = ->
@@ -147,3 +109,7 @@ init = ->
   add_all_hide_button()
 
 init()
+
+
+# おまけ
+$('.rankingPt').hide()

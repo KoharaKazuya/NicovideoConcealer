@@ -13,9 +13,7 @@
 
 
 (function() {
-  var Watch, Watch_Fav, Watch_Matrix, Watch_Search, Watch_Top, add_all_hide_button, check_all_watches, init, match, prefix_id, watches, _ref, _ref1, _ref2, _ref3,
-    __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  var Watch, add_all_hide_button, check_all_watches, init, match, prefix_id, watches;
 
   prefix_id = 'visited_';
 
@@ -34,7 +32,7 @@
       this.$box = this.select_box();
       this.$thumb = this.select_thumb();
       this.$useless = this.select_useless();
-      this.$button = $('<a href="javascript:;;"</a>').css({
+      this.$button = $('<a>').css({
         textDecoration: 'none',
         fontWeight: 'bold',
         fontSize: '12px',
@@ -94,125 +92,25 @@
       return GM_getValue(prefix_id + this.id, false);
     };
 
+    Watch.prototype.select_box = function() {
+      return this.$link.parents('.item');
+    };
+
+    Watch.prototype.select_thumb = function() {
+      return this.$link.parents('.item').find('.itemThumb');
+    };
+
+    Watch.prototype.select_useless = function() {
+      return this.$link.parents('.item').find('.itemComment, .itemDescription, .itemData, .itemTime');
+    };
+
     return Watch;
 
   })();
 
-  Watch_Top = (function(_super) {
-    __extends(Watch_Top, _super);
-
-    function Watch_Top() {
-      _ref = Watch_Top.__super__.constructor.apply(this, arguments);
-      return _ref;
-    }
-
-    Watch_Top.prototype.select_box = function() {
-      return this.$link.parent().parent().parent();
-    };
-
-    Watch_Top.prototype.select_thumb = function() {
-      return this.$link.parent().parent().prev().find('img');
-    };
-
-    Watch_Top.prototype.select_useless = function() {
-      return this.$link.parent().siblings();
-    };
-
-    return Watch_Top;
-
-  })(Watch);
-
-  Watch_Matrix = (function(_super) {
-    __extends(Watch_Matrix, _super);
-
-    function Watch_Matrix() {
-      _ref1 = Watch_Matrix.__super__.constructor.apply(this, arguments);
-      return _ref1;
-    }
-
-    Watch_Matrix.prototype.select_box = function() {
-      return this.$link.parent().parent();
-    };
-
-    Watch_Matrix.prototype.select_thumb = function() {
-      return this.$link.parent().prev().children().children().children();
-    };
-
-    Watch_Matrix.prototype.select_useless = function() {
-      return this.$link.parent().prev().prev();
-    };
-
-    return Watch_Matrix;
-
-  })(Watch);
-
-  Watch_Fav = (function(_super) {
-    __extends(Watch_Fav, _super);
-
-    function Watch_Fav() {
-      _ref2 = Watch_Fav.__super__.constructor.apply(this, arguments);
-      return _ref2;
-    }
-
-    Watch_Fav.prototype.select_box = function() {
-      return this.$link.parent().parent().parent().parent().parent().parent().parent();
-    };
-
-    Watch_Fav.prototype.select_thumb = function() {
-      return this.$link.parent().parent().parent().prev().find('img');
-    };
-
-    Watch_Fav.prototype.select_useless = function() {
-      return this.$link.parent().siblings();
-    };
-
-    return Watch_Fav;
-
-  })(Watch);
-
-  Watch_Search = (function(_super) {
-    __extends(Watch_Search, _super);
-
-    function Watch_Search() {
-      _ref3 = Watch_Search.__super__.constructor.apply(this, arguments);
-      return _ref3;
-    }
-
-    Watch_Search.prototype.select_box = function() {
-      return this.$link.parent().parent();
-    };
-
-    Watch_Search.prototype.select_thumb = function() {
-      return this.$link.parent().prev().find('img');
-    };
-
-    Watch_Search.prototype.select_useless = function() {
-      return this.$link.parent().prev().find('table').next();
-    };
-
-    return Watch_Search;
-
-  })(Watch);
-
-  watches = (function() {
-    var $links, page_type;
-    if (match('matrix')) {
-      $links = $('a.watch');
-      page_type = Watch_Matrix;
-    } else if (match('fav')) {
-      $links = $('.content_672 a.watch');
-      page_type = Watch_Fav;
-    } else if ((match('search')) || (match('tag'))) {
-      $links = $('.content_672 a.watch');
-      page_type = Watch_Search;
-    } else {
-      $links = $('#ranking_main a.watch');
-      page_type = Watch_Top;
-    }
-    return $links.map((function() {
-      return new page_type($(this));
-    }));
-  })();
+  watches = $('.itemTitle a').map((function() {
+    return new Watch($(this));
+  }));
 
   console.log(watches);
 
@@ -239,10 +137,8 @@
     });
     if (match('matrix')) {
       return $('.container table table tr:has(.otherContents)').empty().append($('<td />')).append($('<td colspan="11" />').append($all_hide_button));
-    } else if ((match('fav')) || (match('search')) || (match('tag'))) {
-      return $('#mainContainer>table:last-child>tbody>tr>td:last-child').before($('<td>').append($all_hide_button));
     } else {
-      return $('#ranking_main').append($all_hide_button);
+      return $('.contentBody>ul.list').append($('<li>').append($all_hide_button));
     }
   };
 
@@ -252,5 +148,7 @@
   };
 
   init();
+
+  $('.rankingPt').hide();
 
 }).call(this);
