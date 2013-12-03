@@ -44,7 +44,7 @@ class Watch
       .bind('click', => @hide())
     @$useless.show()
     @unvisit()
-  
+
   # 指定リンクを目立たなくします。
   hide : ->
     @$box.css('opacity', '0.5')
@@ -57,13 +57,13 @@ class Watch
       .bind('click', => @show())
     @$useless.hide()
     @visit()
-  
+
   # 指定リンクを既読にします
   visit : -> GM_setValue(prefix_id + @id, true)
-  
+
   # 指定リンクを未読にします
   unvisit : -> GM_setValue(prefix_id + @id, false)
-  
+
   # 指定リンクが既読かどうか
   isVisited : -> GM_getValue(prefix_id + @id, false)
 
@@ -127,16 +127,17 @@ add_all_hide_button = ->
       width : 'auto'
       cursor : 'pointer'
       textAlign : 'center'
+      fontSize: '30px'
     })
     .click(=> $.each(watches, -> @.hide()))
   if match 'matrix'
-    $('#PAGEBODY table.top20 table tr:eq(20)').after(
-      $('<tr />').append($('<td />')).append($('<td colspan="11" />')
-        .append($all_hide_button)
+    $('.container table table tr:has(.otherContents)').empty().append(
+      $('<td />')).append(
+        $('<td colspan="11" />').append($all_hide_button)
       )
-    )
   else if (match 'fav') || (match 'search') || (match 'tag')
-    $('div.content_672').append($all_hide_button)
+    $('#mainContainer>table:last-child>tbody>tr>td:last-child')
+      .before($('<td>').append $all_hide_button)
   else
     $('#ranking_main').append($all_hide_button)
 
