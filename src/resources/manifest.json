@@ -1,0 +1,7 @@
+{
+  "manifest_version": 2,
+
+  "name": "NicovideoConcealer",
+  "description": "ニコニコ動画のランキングページで既に見た動画を隠します。",
+  "version": "0.0.1"
+}
