@@ -2,7 +2,7 @@ util = require('util')
 exec = require('child_process').exec
 
 # 設定
-SOURCE_DIR = './src'
+SOURCE_DIR = './src/coffee'
 TARGET_DIR = './build'
 TARGET_FILENAME = 'NicovideoConcealer.user.js'
 
@@ -31,7 +31,7 @@ task 'build', 'CoffeeScriptをまとめてひとつのJavaScriptにします', (
 
     # コンパイル実行
     util.log('コンパイルします')
-    exec "coffee #{option}", (error, stdout, stderr) -> 
+    exec "coffee #{option}", (error, stdout, stderr) ->
 
         util.log(error) if error
         util.log(stdout) if stdout
