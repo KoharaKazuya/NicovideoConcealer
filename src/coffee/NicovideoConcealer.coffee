@@ -1,4 +1,4 @@
-# GreaseMonkeyスクリプトの設定値に登録するIDのプレフィックス
+# データベースのエントリに登録するIDのプレフィックス
 prefix_id = 'visited_'
 
 # ページの種類を判定する
@@ -59,13 +59,13 @@ class Watch
     @visit()
 
   # 指定リンクを既読にします
-  visit : -> GM_setValue(prefix_id + @id, true)
+  visit : -> localStorage.setItem(prefix_id + @id, true)
 
   # 指定リンクを未読にします
-  unvisit : -> GM_setValue(prefix_id + @id, false)
+  unvisit : -> localStorage.setItem(prefix_id + @id, false)
 
   # 指定リンクが既読かどうか
-  isVisited : -> GM_getValue(prefix_id + @id, false)
+  isVisited : -> localStorage.getItem(prefix_id + @id) || false
 
   select_box : -> @$link.parents('.item')
   select_thumb : -> @$link.parents('.item').find('.itemThumb')

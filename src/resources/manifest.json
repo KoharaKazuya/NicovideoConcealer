@@ -12,7 +12,7 @@
                 "http://www.nicovideo.jp/search*",
                 "http://www.nicovideo.jp/tag*"
             ],
-            "js": ["jquery-2.0.3.min.js", "NicovideoConcealer.user.js"]
+            "js": ["jquery-2.0.3.min.js", "NicovideoConcealer.js"]
         }
     ]
 }

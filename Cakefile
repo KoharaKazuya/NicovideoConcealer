@@ -5,11 +5,10 @@ exec = require('child_process').exec
 SOURCE_DIR = './src/coffee'
 RESOURCE_DIR = './src/resources'
 TARGET_DIR = './build'
-TARGET_FILENAME = 'NicovideoConcealer.user.js'
+TARGET_FILENAME = 'NicovideoConcealer.js'
 
 #コンパイルするファイル群
 files = [
-    'GM_prefix.coffee'
     'NicovideoConcealer.coffee'
 ]
 
