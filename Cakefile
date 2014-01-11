@@ -2,18 +2,24 @@ util = require('util')
 exec = require('child_process').exec
 
 # 設定
-SOURCE_DIR = './src'
+SOURCE_DIR = './src/coffee'
+RESOURCE_DIR = './src/resources'
 TARGET_DIR = './build'
-TARGET_FILENAME = 'NicovideoConcealer.user.js'
+TARGET_FILENAME = 'NicovideoConcealer.js'
 
 #コンパイルするファイル群
 files = [
-    'GM_prefix.coffee'
     'NicovideoConcealer.coffee'
 ]
 
 # タスクの登録
 task 'build', 'CoffeeScriptをまとめてひとつのJavaScriptにします', (options) ->
+
+    # リソースのコピー
+    exec "cp #{RESOURCE_DIR}/* #{TARGET_DIR}/", (error, stdout, stderr) ->
+        util.log(error) if error
+        util.log(stdout) if stdout
+        util.log(stderr) if stderr
 
     # ファイルを構成する
     util.log('まとめるファイルを構成します')
@@ -31,7 +37,7 @@ task 'build', 'CoffeeScriptをまとめてひとつのJavaScriptにします', (
 
     # コンパイル実行
     util.log('コンパイルします')
-    exec "coffee #{option}", (error, stdout, stderr) -> 
+    exec "coffee #{option}", (error, stdout, stderr) ->
 
         util.log(error) if error
         util.log(stdout) if stdout
