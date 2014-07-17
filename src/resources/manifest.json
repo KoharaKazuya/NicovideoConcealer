@@ -2,8 +2,8 @@
     "manifest_version": 2,
 
     "name": "NicovideoConcealer",
-    "description": "ニコニコ動画のランキングページで既に見た動画を隠します。",
-    "version": "0.0.1",
+    "description": "ニコニコ動画で既にチェックした動画のリンクを目立たなくします。",
+    "version": "1.0.0",
 
     "content_scripts": [
         {
