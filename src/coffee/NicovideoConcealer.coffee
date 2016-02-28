@@ -74,8 +74,6 @@ class Watch
 # 全ての動画アイテムのリスト
 watches = $('.itemTitle a').map((-> new Watch($(@))))
 
-console.log(watches)
-
 # 全ての動画アイテムをそれぞれの既読/未読に従って表示を切り替える
 check_all_watches = ->
   $.each(watches, ->
