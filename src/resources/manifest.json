@@ -3,7 +3,7 @@
 
     "name": "NicovideoConcealer",
     "description": "ニコニコ動画で既にチェックした動画のリンクを目立たなくします。",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icons": { "128": "icon128.png" },
 
     "content_scripts": [
