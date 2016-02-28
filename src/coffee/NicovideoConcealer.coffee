@@ -7,10 +7,9 @@ match = (type) -> location.href.indexOf(type) != -1
 # 一つの動画のアイテムを洗わすクラス
 class Watch
   constructor : (@$link) ->
-    @id = (=>
+    @id = do =>
       @$link.attr('href').match(/watch\/([a-z0-9]+)/)
       RegExp.$1
-    )()
     #@rank = @get_rank()
     @$box = @select_box()
     @$thumb = @select_thumb()
@@ -21,7 +20,7 @@ class Watch
       fontSize: '12px'
       backgroundColor: 'white'
     }).text('[×]').bind('click', => @hide())
-    (=>
+    do =>
       $field = $('<div></div>').css({
         textAlign: 'right'
         position: 'absolute'
@@ -30,7 +29,6 @@ class Watch
       })
       @$box.css('position', 'relative')  # $button の position:absolute を正しく動作させるため
         .append($field.append(@$button))
-    )()
 
   # 指定リンクを目立たせます。
   show : ->
@@ -102,11 +100,9 @@ add_all_hide_button = ->
       .append($('<li>').append $all_hide_button)
 
 # 初期化処理
-init = ->
+do ->
   check_all_watches()
   add_all_hide_button()
-
-init()
 
 
 # おまけ
