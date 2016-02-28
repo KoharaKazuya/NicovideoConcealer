@@ -70,7 +70,7 @@ class Watch
   select_useless : -> @$link.parents('.item').find('.itemComment, .itemDescription, .itemData, .itemTime')
 
 # 全ての動画アイテムのリスト
-watches = $('.itemTitle a').map((-> new Watch($(@))))
+watches = $('.itemTitle a, a:has(.itemTitle)').map((-> new Watch($(@))))
 
 # 全ての動画アイテムをそれぞれの既読/未読に従って表示を切り替える
 check_all_watches = ->
